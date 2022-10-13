@@ -32,7 +32,11 @@ public class Employee extends Person implements Serializable {
     private Employee supervisor;
 
     @Builder
-    public Employee(String name, String phoneNo, Address address, Long id, @Singular Set<Report> reports, @Singular Set<Customer> customers,@Singular Set<Attendance> attendances, Employee supervisor,EmployeeRole employeeRole) {
+    public Employee(String name, String phoneNo, Address address,
+                    Long id, @Singular Set<Report> reports,
+                    @Singular Set<Customer> customers,
+                    @Singular Set<Attendance> attendances,
+                    Employee supervisor,EmployeeRole employeeRole) {
         super(name, phoneNo, address, id);
         this.reports = reports;
         this.customers = customers;

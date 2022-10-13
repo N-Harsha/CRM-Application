@@ -3,6 +3,7 @@ package com.ennea.valuemanage.Model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
@@ -11,6 +12,7 @@ import javax.persistence.OneToOne;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
+@ToString(callSuper = true)
 public class Person extends BaseEntity{
     private String name;
     private String phoneNo;
