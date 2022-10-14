@@ -1,0 +1,15 @@
+th, td {
+    padding: 15px;
+  }
+  .new-retailer-table{
+    width: 50%;
+    height: 75%;
+  }
+  .new-form-header{
+    font-size: xx-large;
+    font-weight: 500;
+    color: black;
+  }
+  input{
+    width: 80%;
+  }
