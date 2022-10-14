@@ -53,7 +53,15 @@ public class BootStrap implements CommandLineRunner {
 
         Customer retailer1 = Customer.builder().name("Retailer1")
                 .customerType(CustomerType.RETAILER)
-                .phoneNo("9000800268").build();
+                .phoneNo("9000800268")
+                .order(Order.builder().productName("dolo").quantity(1999).build())
+                .order(Order.builder().productName("xyantol").quantity(122).build())
+                .order(Order.builder().productName("refsidol").quantity(399).build())
+                .comment(Comment.builder().date(LocalDate.now()).name("Roy").text("LOL").build())
+                .comment(Comment.builder().date(LocalDate.now()).name("James").text("Yeet").build())
+                .comment(Comment.builder().date(LocalDate.now()).name("Dunken").text("XOXO").build())
+                .comment(Comment.builder().date(LocalDate.now()).name("Kenny").text("peek").build())
+                .build();
         Customer retailer2 = Customer.builder().name("Retailer2")
                 .customerType(CustomerType.RETAILER)
                 .phoneNo("9000800268").build();

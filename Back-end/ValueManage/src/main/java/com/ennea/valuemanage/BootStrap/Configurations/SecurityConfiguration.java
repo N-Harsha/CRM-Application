@@ -1,4 +1,4 @@
-package com.ennea.valuemanage.Configurations;
+package com.ennea.valuemanage.BootStrap.Configurations;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
