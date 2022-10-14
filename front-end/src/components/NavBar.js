@@ -7,7 +7,7 @@ const NavBar = (props) => {
   const uname=props.type;
   return (
     <div className="navdiv ">
-      {uname==="ret" && <ul className="crmNavBar">
+      {uname==="rep" && <ul className="crmNavBar">
         <li>
           {" "}
           <img

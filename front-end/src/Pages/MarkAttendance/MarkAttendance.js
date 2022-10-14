@@ -4,7 +4,7 @@ import { Calendar } from "react-calendar";
 import moment from "moment";
 import { useState } from "react";
 import "./Calendar.css";
-const MarkAttendance = () => {
+const MarkAttendance = (props) => {
   const date = new Date();
   const [mark, setmark] = useState(["12-10-2022", "11-10-2022", "25-08-2022"]);
   const attendanceHandler = (event) => {
@@ -31,13 +31,13 @@ const MarkAttendance = () => {
       />
       <br />
       <br />
-      <button
+      {props.type==="rep" && <button
         className={"btn btn-primary"}
         type="submit"
         onClick={attendanceHandler}
       >
         Mark Attendance
-      </button>
+      </button>}
     </div>
   );
 };

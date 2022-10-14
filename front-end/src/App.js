@@ -22,7 +22,7 @@ function App() {
   const uname=retailer.uname;
   return (
     <div className="Appdiv text-center">
-      {uname==="rep" && retailer.isLoggedIn && <NavBar onClick={LoginHandler} type="ret"/>}
+      {uname==="rep" && retailer.isLoggedIn && <NavBar onClick={LoginHandler} type="rep"/>}
       {uname==="man" && retailer.isLoggedIn && <NavBar onClick={LoginHandler} type="man"/>}
       <div className="route-div">
        {uname==="rep" &&  <Routes>
@@ -31,8 +31,8 @@ function App() {
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/AssociateRetailers/" element={<AssociatedRetailers type="Retailer"/>} />
           <Route path="/AssociatedRetailers/:UID" element={<Dummy/>}></Route>
-          <Route path="/MarkAttendance" element={<Calendar />} />
-          <Route path="/Reports" element={<Report type="Retailer" />} />
+          <Route path="/MarkAttendance" element={<Calendar type="rep"/>} />
+          <Route path="/Reports" element={<Report type="rep" />} />
           <Route path="/NewRetailer" element={<NewRetailer type="Retailer"/>} />
           <Route
             path="/NewRetailer/new"
@@ -45,8 +45,8 @@ function App() {
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/AssociateDistributors/" element={<AssociatedRetailers type="Distributor"/>} />
           <Route path="/AssociatedDistributors/:UID" element={<Dummy/>}></Route>
-          <Route path="/MarkAttendance" element={<Calendar />} />
-          <Route path="/Reports" element={<Report type="Distributor" />} />
+          <Route path="/SeeAttendance" element={<Calendar type="man"/>} />
+          <Route path="/Reports" element={<Report type="man" />} />
           <Route path="/NewDistributor" element={<NewRetailer type="Distributor"/>} />
           <Route
             path="/NewDistributor/new"

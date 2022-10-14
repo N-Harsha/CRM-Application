@@ -4,7 +4,7 @@ const Report = (props) => {
   return (
     <center>
       <br/><br/>
-      <form className="my-form">
+      {props.type==="rep" &&<form className="my-form">
         <table className="report-table">
           <tbody>
           <tr>
@@ -62,7 +62,8 @@ const Report = (props) => {
           </tr>
           </tbody>
         </table>
-      </form>
+      </form>}
+      {props.type==="man" && <h1>representative lists with reports</h1>}
     </center>
   );
 };
