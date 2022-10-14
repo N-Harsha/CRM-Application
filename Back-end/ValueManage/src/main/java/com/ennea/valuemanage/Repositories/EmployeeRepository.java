@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
@@ -21,4 +22,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
     @Query("select report from Report report where report.employee.id=?1")
     List<Report> findAllReports(Long id);
+
+    @Query("select report from Report report where report.employee.id=?1 and report.date=?2")
+    Optional<Report> findTodaysReport(Long id, LocalDate now);
 }

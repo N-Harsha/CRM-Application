@@ -5,9 +5,7 @@ import com.ennea.valuemanage.API.v1.DTO.ReportDTO;
 import com.ennea.valuemanage.API.v1.Mapper.CustomerMapper;
 import com.ennea.valuemanage.API.v1.Mapper.EmployeeMapper;
 import com.ennea.valuemanage.API.v1.Mapper.ReportMapper;
-import com.ennea.valuemanage.Model.Attendance;
-import com.ennea.valuemanage.Model.Employee;
-import com.ennea.valuemanage.Model.Report;
+import com.ennea.valuemanage.Model.*;
 import com.ennea.valuemanage.Repositories.AddressRepository;
 
 import com.ennea.valuemanage.Repositories.EmployeeRepository;
@@ -17,8 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -115,4 +113,25 @@ public class EmployeeServiceImpl implements EmployeeService{
         reportService.save(report);
     }
 
+    @Override
+    public void saveCustomer(Long id, CustomerDTO customerDTO) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+        if(optionalEmployee.isPresent()){
+            Employee employee=optionalEmployee.get();
+            if(employee.getEmployeeRole()== EmployeeRole.MANAGER){
+                customer.setCustomerType(CustomerType.DISTRIBUTOR);
+            }
+            else if(employee.getEmployeeRole()==EmployeeRole.REPRESENTATIVE){
+                customer.setCustomerType(CustomerType.RETAILER);
+            }
+            customer.setAgent(employee);
+        }
+        customerService.save(customer);
+    }
+
+    @Override
+    public Boolean getReportToday(Long id) {
+        return employeeRepository.findTodaysReport(id,LocalDate.now()).isPresent();
+    }
 }

@@ -20,4 +20,8 @@ public interface EmployeeService {
     void markAttendance(Long id);
 
     void submitReport(Long id, ReportDTO reportDTO);
+
+    void saveCustomer(Long id, CustomerDTO customerDTO);
+
+    Boolean getReportToday(Long id);
 }

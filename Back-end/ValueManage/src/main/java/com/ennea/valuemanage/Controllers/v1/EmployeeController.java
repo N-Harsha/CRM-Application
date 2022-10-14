@@ -55,4 +55,15 @@ public class EmployeeController {
         employeeService.submitReport(id,reportDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PostMapping({"/representative/{id}/retailer/new","/manager/{id}/distributor/new"})
+    public ResponseEntity<Void> addNewCustomer(@PathVariable Long id,@RequestBody CustomerDTO customerDTO){
+        employeeService.saveCustomer(id,customerDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping({"/representative/{id}/report/today", "/manager/{id}/report/today"})
+    public ResponseEntity<Boolean> hasSubmittedReport(@PathVariable Long id){
+        return new ResponseEntity<>(employeeService.getReportToday(id),HttpStatus.OK);
+    }
 }
