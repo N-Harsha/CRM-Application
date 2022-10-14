@@ -1,6 +1,7 @@
 package com.ennea.valuemanage.Controllers.v1;
 
 import com.ennea.valuemanage.API.v1.DTO.CustomerDTO;
+import com.ennea.valuemanage.API.v1.DTO.EmployeeDTO;
 import com.ennea.valuemanage.API.v1.DTO.ReportDTO;
 import com.ennea.valuemanage.Services.EmployeeService;
 import org.springframework.data.domain.Page;
@@ -65,5 +66,10 @@ public class EmployeeController {
     @GetMapping({"/representative/{id}/report/today", "/manager/{id}/report/today"})
     public ResponseEntity<Boolean> hasSubmittedReport(@PathVariable Long id){
         return new ResponseEntity<>(employeeService.getReportToday(id),HttpStatus.OK);
+    }
+
+    @GetMapping("/manager/{id}/representatives")
+    public ResponseEntity<List<EmployeeDTO>> getSubordinates(@PathVariable Long id){
+        return new ResponseEntity<>(employeeService.getSubordinates(id),HttpStatus.OK);
     }
 }

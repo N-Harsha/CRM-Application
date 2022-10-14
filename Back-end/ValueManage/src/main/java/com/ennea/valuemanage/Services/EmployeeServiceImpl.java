@@ -1,6 +1,7 @@
 package com.ennea.valuemanage.Services;
 
 import com.ennea.valuemanage.API.v1.DTO.CustomerDTO;
+import com.ennea.valuemanage.API.v1.DTO.EmployeeDTO;
 import com.ennea.valuemanage.API.v1.DTO.ReportDTO;
 import com.ennea.valuemanage.API.v1.Mapper.CustomerMapper;
 import com.ennea.valuemanage.API.v1.Mapper.EmployeeMapper;
@@ -133,5 +134,10 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public Boolean getReportToday(Long id) {
         return employeeRepository.findTodaysReport(id,LocalDate.now()).isPresent();
+    }
+
+    @Override
+    public List<EmployeeDTO> getSubordinates(Long id) {
+        return employeeRepository.findAllSubordinates(id).stream().map(employeeMapper::employeeToEmployeeDTO).collect(Collectors.toList());
     }
 }

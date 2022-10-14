@@ -1,6 +1,7 @@
 package com.ennea.valuemanage.Services;
 
 import com.ennea.valuemanage.API.v1.DTO.CustomerDTO;
+import com.ennea.valuemanage.API.v1.DTO.EmployeeDTO;
 import com.ennea.valuemanage.API.v1.DTO.ReportDTO;
 import com.ennea.valuemanage.Model.Employee;
 import org.springframework.data.domain.Page;
@@ -24,4 +25,6 @@ public interface EmployeeService {
     void saveCustomer(Long id, CustomerDTO customerDTO);
 
     Boolean getReportToday(Long id);
+
+    List<EmployeeDTO> getSubordinates(Long id);
 }

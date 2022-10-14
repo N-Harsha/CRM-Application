@@ -25,4 +25,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
     @Query("select report from Report report where report.employee.id=?1 and report.date=?2")
     Optional<Report> findTodaysReport(Long id, LocalDate now);
+
+    @Query("select employee from Employee employee where employee.supervisor.id=?1")
+    List<Employee> findAllSubordinates(Long id);
 }
