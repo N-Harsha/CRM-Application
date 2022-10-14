@@ -1,6 +1,7 @@
 package com.ennea.valuemanage.Controllers.v1;
 
 import com.ennea.valuemanage.API.v1.DTO.CustomerDTO;
+import com.ennea.valuemanage.API.v1.DTO.ReportDTO;
 import com.ennea.valuemanage.Services.EmployeeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -38,4 +37,13 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getPresentDates(id,month,year),HttpStatus.OK);
 
     }
+
+    @GetMapping({"/representative/{id}/reports", "/manager/{id}/reports"})
+    public ResponseEntity<List<ReportDTO>> getReports(@PathVariable Long id){
+
+        return new ResponseEntity<>(employeeService.getReports(id),HttpStatus.OK);
+    }
+
+
+
 }

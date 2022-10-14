@@ -1,8 +1,10 @@
 package com.ennea.valuemanage.Services;
 
 import com.ennea.valuemanage.API.v1.DTO.CustomerDTO;
+import com.ennea.valuemanage.API.v1.DTO.ReportDTO;
 import com.ennea.valuemanage.API.v1.Mapper.CustomerMapper;
 import com.ennea.valuemanage.API.v1.Mapper.EmployeeMapper;
+import com.ennea.valuemanage.API.v1.Mapper.ReportMapper;
 import com.ennea.valuemanage.Model.Employee;
 import com.ennea.valuemanage.Repositories.AddressRepository;
 
@@ -28,11 +30,12 @@ public class EmployeeServiceImpl implements EmployeeService{
     EmployeeMapper employeeMapper;
 
     CustomerMapper customerMapper;
+    ReportMapper reportMapper;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository, AddressRepository addressRepository,
                                ReportService reportService, CustomerService customerService,
                                AttendanceService attendanceService,EmployeeMapper employeeMapper,
-                                CustomerMapper customerMapper) {
+                                CustomerMapper customerMapper,ReportMapper reportMapper) {
         this.employeeRepository = employeeRepository;
         this.addressRepository = addressRepository;
         this.reportService = reportService;
@@ -40,6 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         this.attendanceService = attendanceService;
         this.employeeMapper=employeeMapper;
         this.customerMapper=customerMapper;
+        this.reportMapper=reportMapper;
     }
 
     @Override
@@ -88,5 +92,10 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeRepository.findAllPresentDates(id,
                 LocalDate.of(year,month,1),
                 LocalDate.of((month+1)<12?year:year+1,(month+1)==13?1:(month+1),1).minusDays(1));
+    }
+
+    @Override
+    public List<ReportDTO> getReports(Long id) {
+        return employeeRepository.findAllReports(id).stream().map(reportMapper::reportToReportDTO).collect(Collectors.toList());
     }
 }
