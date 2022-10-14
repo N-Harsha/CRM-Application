@@ -5,7 +5,9 @@ import com.ennea.valuemanage.API.v1.DTO.ReportDTO;
 import com.ennea.valuemanage.API.v1.Mapper.CustomerMapper;
 import com.ennea.valuemanage.API.v1.Mapper.EmployeeMapper;
 import com.ennea.valuemanage.API.v1.Mapper.ReportMapper;
+import com.ennea.valuemanage.Model.Attendance;
 import com.ennea.valuemanage.Model.Employee;
+import com.ennea.valuemanage.Model.Report;
 import com.ennea.valuemanage.Repositories.AddressRepository;
 
 import com.ennea.valuemanage.Repositories.EmployeeRepository;
@@ -98,4 +100,19 @@ public class EmployeeServiceImpl implements EmployeeService{
     public List<ReportDTO> getReports(Long id) {
         return employeeRepository.findAllReports(id).stream().map(reportMapper::reportToReportDTO).collect(Collectors.toList());
     }
+
+    @Override
+    public void markAttendance(Long id) {
+        //todo add error handling code for mark attendance
+        attendanceService.save(Attendance.builder().presenceDate(LocalDate.now()).employee(employeeRepository.findById(id).get()).build());
+    }
+
+    @Override
+    public void submitReport(Long id, ReportDTO reportDTO) {
+        //todo add error handling for report post
+        Report report = reportMapper.reportDTOToReport(reportDTO);
+        report.setEmployee(employeeRepository.findById(id).get());
+        reportService.save(report);
+    }
+
 }

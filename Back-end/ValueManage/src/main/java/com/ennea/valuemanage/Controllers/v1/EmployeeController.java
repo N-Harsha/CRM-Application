@@ -44,6 +44,15 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getReports(id),HttpStatus.OK);
     }
 
+    @PostMapping({"/representative/{id}/attendance/new","/manager/{id}/attendance/new"})
+    public ResponseEntity<Void> markAttendance(@PathVariable Long id){
+        employeeService.markAttendance(id);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
-
+    @PostMapping({"/representative/{id}/report/new", "/manager/{id}/report/new"})
+    public ResponseEntity<Void> submitReport(@PathVariable Long id,@RequestBody ReportDTO reportDTO){
+        employeeService.submitReport(id,reportDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

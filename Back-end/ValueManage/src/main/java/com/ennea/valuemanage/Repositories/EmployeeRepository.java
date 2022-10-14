@@ -19,6 +19,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     @Query("select attendance.presenceDate from Attendance attendance where attendance.employee.id=?1 and attendance.presenceDate between ?2 and ?3")
     List<LocalDate> findAllPresentDates(Long id, LocalDate st_date, LocalDate end_date);
 
-    @Query("select report from Report report where report.employee=?1")
+    @Query("select report from Report report where report.employee.id=?1")
     List<Report> findAllReports(Long id);
 }

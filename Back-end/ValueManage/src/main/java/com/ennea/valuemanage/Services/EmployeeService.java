@@ -16,4 +16,8 @@ public interface EmployeeService {
     List<LocalDate> getPresentDates(Long id, int month, int year);
 
     List<ReportDTO> getReports(Long id);
+
+    void markAttendance(Long id);
+
+    void submitReport(Long id, ReportDTO reportDTO);
 }

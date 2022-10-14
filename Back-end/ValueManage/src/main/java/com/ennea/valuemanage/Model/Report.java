@@ -16,10 +16,10 @@ import java.util.Date;
 @Builder
 @Entity
 public class Report extends BaseEntity {
-    Long totalMet;
-    Long newOnboarded;
-    Long existingMet;
-    Long ordersPlaced;
+    int totalMet;
+    int newOnboarded;
+    int existingMet;
+    int ordersPlaced;
     LocalDate date;
 
     @ManyToOne
@@ -29,7 +29,7 @@ public class Report extends BaseEntity {
     @OneToOne
     Comment comment;
 
-    public Report(Long id, Long totalMet, Long newOnboarded, Long existingMet, Long ordersPlaced, LocalDate date, Comment comment,Employee employee) {
+    public Report(Long id, int totalMet, int newOnboarded, int existingMet, int ordersPlaced, LocalDate date, Comment comment,Employee employee) {
         super(id);
         this.totalMet = totalMet;
         this.newOnboarded = newOnboarded;

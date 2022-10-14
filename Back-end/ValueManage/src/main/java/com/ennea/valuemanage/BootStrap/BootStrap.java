@@ -44,7 +44,7 @@ public class BootStrap implements CommandLineRunner {
 
         Employee m1=Employee.builder().employeeRole(EmployeeRole.MANAGER).name("Manager1").phoneNo("9848033221").customer(dist1).customer(dist2)
                 .attendance(Attendance.builder().presenceDate(LocalDate.of(2022,10,1)).build())
-                .attendance(Attendance.builder().presenceDate(LocalDate.of(2022,11,1)).build())
+                .attendance(Attendance.builder().presenceDate(LocalDate.of(2022,10,12)).build())
                 .attendance(Attendance.builder().presenceDate(LocalDate.of(2022,3,12)).build()).build();
         Employee m2=Employee.builder().employeeRole(EmployeeRole.MANAGER).name("Manager2").phoneNo("9848033221").customer(dist3).customer(dist4).build();
         Employee m3=Employee.builder().employeeRole(EmployeeRole.MANAGER).name("Manager3").phoneNo("9848033221").customer(dist5).customer(dist6).build();
@@ -84,7 +84,12 @@ public class BootStrap implements CommandLineRunner {
         Employee re5=Employee.builder().name("Representative5").employeeRole(EmployeeRole.REPRESENTATIVE).supervisor(m3).customer(retailer5).build();
         Employee re6=Employee.builder().name("Representative6").employeeRole(EmployeeRole.REPRESENTATIVE).supervisor(m3).customer(retailer6).build();
         Employee re7=Employee.builder().name("Representative7").employeeRole(EmployeeRole.REPRESENTATIVE).supervisor(m1).customer(retailer7).build();
-        Employee re8=Employee.builder().name("Representative8").employeeRole(EmployeeRole.REPRESENTATIVE).supervisor(m2).customer(retailer8).build();
+        Employee re8=Employee.builder().name("Representative8").employeeRole(EmployeeRole.REPRESENTATIVE).supervisor(m2).customer(retailer8)
+                .report(Report.builder().date(LocalDate.now().minusDays(4)).totalMet(12).ordersPlaced(3).build())
+                .report(Report.builder().date(LocalDate.now().plusDays(5)).totalMet(19).ordersPlaced(3).build())
+                .report(Report.builder().date(LocalDate.now()).totalMet(20).ordersPlaced(3).build())
+                .report(Report.builder().date(LocalDate.now().plusDays(1)).totalMet(40).ordersPlaced(3).build())
+                .build();
 
         employeeService.save(re1);
         employeeService.save(re2);
