@@ -5,10 +5,7 @@ import com.ennea.valuemanage.Model.Comment;
 import com.ennea.valuemanage.Services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +27,12 @@ public class CustomerController {
     @GetMapping({"retailer/{id}/comments","distributor/{id}/comments"})
     public ResponseEntity<List<Comment>> getCustomerComments(@PathVariable Long id){
         return new ResponseEntity<>(customerService.getComments(id),HttpStatus.OK);
+    }
+
+    @PostMapping({"retailer/{id}/comment/new","distributor/{id}/comment/new"})
+    public ResponseEntity<Void> addComment(@PathVariable Long id,@RequestBody Comment comment){
+        customerService.addNewComment(id,comment);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 

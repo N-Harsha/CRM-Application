@@ -73,4 +73,10 @@ public class CustomerServiceImpl implements CustomerService{
         return customerRepository.findAllComments(id);
     }
 
+    @Override
+    public void addNewComment(Long id, Comment comment) {
+        Customer customer = customerRepository.findById(id).get();
+        customer.getComments().add(commentRepository.save(comment));
+        customerRepository.save(customer);
+    }
 }
