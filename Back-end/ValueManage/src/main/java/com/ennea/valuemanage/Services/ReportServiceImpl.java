@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Service
 public class ReportServiceImpl implements ReportService{
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     ReportRepository reportRepository;
 
     public ReportServiceImpl(ReportRepository reportRepository) {
@@ -19,12 +19,9 @@ public class ReportServiceImpl implements ReportService{
 
     @Override
     public Report save(Report report) {
+//        report.setDate(LocalDate.now());
         report.getComment().setDate(report.getDate());
-        try{
-        report.setDate(formatter.parse(formatter.format(new Date())));}
-        catch (ParseException e){
-            report.setDate(null);
-        }
+
         return reportRepository.save(report);
     }
 }

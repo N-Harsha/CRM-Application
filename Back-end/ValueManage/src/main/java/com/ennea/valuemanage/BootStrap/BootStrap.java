@@ -7,6 +7,8 @@ import com.ennea.valuemanage.Services.EmployeeService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class BootStrap implements CommandLineRunner {
 
@@ -40,7 +42,10 @@ public class BootStrap implements CommandLineRunner {
                 .customerType(CustomerType.DISTRIBUTOR)
                 .phoneNo("9855135777").build();
 
-        Employee m1=Employee.builder().employeeRole(EmployeeRole.MANAGER).name("Manager1").phoneNo("9848033221").customer(dist1).customer(dist2).build();
+        Employee m1=Employee.builder().employeeRole(EmployeeRole.MANAGER).name("Manager1").phoneNo("9848033221").customer(dist1).customer(dist2)
+                .attendance(Attendance.builder().presenceDate(LocalDate.of(2022,10,1)).build())
+                .attendance(Attendance.builder().presenceDate(LocalDate.of(2022,11,1)).build())
+                .attendance(Attendance.builder().presenceDate(LocalDate.of(2022,3,12)).build()).build();
         Employee m2=Employee.builder().employeeRole(EmployeeRole.MANAGER).name("Manager2").phoneNo("9848033221").customer(dist3).customer(dist4).build();
         Employee m3=Employee.builder().employeeRole(EmployeeRole.MANAGER).name("Manager3").phoneNo("9848033221").customer(dist5).customer(dist6).build();
 

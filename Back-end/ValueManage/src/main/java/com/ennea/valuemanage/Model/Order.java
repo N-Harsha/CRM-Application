@@ -18,6 +18,7 @@ import java.io.Serializable;
 public class Order extends BaseEntity implements Serializable {
     String productName;
     Long quantity;
+
     Float amount;
     @ManyToOne
     @JoinColumn(name = "customer_id")

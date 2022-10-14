@@ -12,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,5 +81,12 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public Page<CustomerDTO> getCustomers(Long id, PageRequest pageRequest) {
        return employeeRepository.findAllCustomers(id,pageRequest).map(customerMapper::customerToCustomerDTO);
+    }
+
+    @Override
+    public List<LocalDate> getPresentDates(Long id, int month, int year) {
+        return employeeRepository.findAllPresentDates(id,
+                LocalDate.of(year,month,1),
+                LocalDate.of((month+1)<12?year:year+1,(month+1)==13?1:(month+1),1).minusDays(1));
     }
 }
