@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -16,10 +17,10 @@ import java.util.Date;
 public class Comment extends BaseEntity{
     String name;
     String text;
-    Date date;
+    LocalDate date;
 
 
-    Comment(Long id, String name, String text, Date date){
+    Comment(Long id, String name, String text, LocalDate date){
         super(id);
         this.name=name;
         this.text=text;

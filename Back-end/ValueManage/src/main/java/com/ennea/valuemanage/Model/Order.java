@@ -17,18 +17,21 @@ import java.io.Serializable;
 
 public class Order extends BaseEntity implements Serializable {
     String productName;
-    Long quantity;
+    Integer quantity;
+
     Float amount;
+    String supplierName;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     Customer customer;
 
     @Builder
-    public Order(Long id, String productName, Long quantity,Float amount,Customer customer) {
+    public Order(Long id, String productName, Integer quantity,Float amount,Customer customer,String supplierName) {
         super(id);
         this.productName = productName;
         this.quantity = quantity;
         this.amount=amount;
         this.customer=customer;
+        this.supplierName=supplierName;
     }
 }

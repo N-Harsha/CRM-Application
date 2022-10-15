@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Setter
@@ -15,11 +16,11 @@ import java.util.Date;
 @Builder
 @Entity
 public class Report extends BaseEntity {
-    Long totalMet;
-    Long newOnboarded;
-    Long existingMet;
-    Long ordersPlaced;
-    Date date;
+    int totalMet;
+    int newOnboarded;
+    int existingMet;
+    int ordersPlaced;
+    LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
@@ -28,7 +29,7 @@ public class Report extends BaseEntity {
     @OneToOne
     Comment comment;
 
-    public Report(Long id, Long totalMet, Long newOnboarded, Long existingMet, Long ordersPlaced, Date date, Comment comment,Employee employee) {
+    public Report(Long id, int totalMet, int newOnboarded, int existingMet, int ordersPlaced, LocalDate date, Comment comment,Employee employee) {
         super(id);
         this.totalMet = totalMet;
         this.newOnboarded = newOnboarded;
