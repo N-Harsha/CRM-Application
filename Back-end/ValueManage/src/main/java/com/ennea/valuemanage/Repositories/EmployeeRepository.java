@@ -28,4 +28,5 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
     @Query("select employee from Employee employee where employee.supervisor.id=?1")
     List<Employee> findAllSubordinates(Long id);
+
 }

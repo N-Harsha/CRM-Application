@@ -108,6 +108,8 @@ public class BootStrap implements CommandLineRunner {
         employeeService.save(re7);
         employeeService.save(re8);
 
+        UserDetails user1=UserDetails.builder().userName("").build();
+
 
     }
 }
