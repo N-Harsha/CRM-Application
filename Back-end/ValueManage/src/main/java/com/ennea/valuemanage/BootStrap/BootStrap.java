@@ -8,6 +8,7 @@ import com.ennea.valuemanage.Repositories.security.UserRepository;
 import com.ennea.valuemanage.Services.CustomerService;
 import com.ennea.valuemanage.Services.EmployeeService;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -19,12 +20,16 @@ public class BootStrap implements CommandLineRunner {
     CustomerService customerService;
     UserRepository userRepository;
     AuthorityRepository authorityRepository;
+
+    PasswordEncoder passwordEncoder;
     public BootStrap(EmployeeService employeeService, CustomerService customerService,
-                     UserRepository userRepository, AuthorityRepository authorityRepository) {
+                     UserRepository userRepository, AuthorityRepository authorityRepository,
+                     PasswordEncoder passwordEncoder) {
         this.employeeService = employeeService;
         this.customerService = customerService;
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
+        this.passwordEncoder=passwordEncoder;
     }
 
     @Override
@@ -118,18 +123,18 @@ public class BootStrap implements CommandLineRunner {
         Authority managerAuthority = authorityRepository.save(Authority.builder().role("MANAGER").build());
         Authority representativeAuthority = authorityRepository.save(Authority.builder().role("REPRESENTATIVE").build());
 
-        userRepository.save(User.builder().userName("Representative1").password("password1").authority(representativeAuthority).employee(re1).build());
-        userRepository.save(User.builder().userName("Representative2").password("password2").authority(representativeAuthority).employee(re2).build());
-        userRepository.save(User.builder().userName("Representative3").password("password3").authority(representativeAuthority).employee(re3).build());
-        userRepository.save(User.builder().userName("Representative4").password("password4").authority(representativeAuthority).employee(re4).build());
-        userRepository.save(User.builder().userName("Representative5").password("password5").authority(representativeAuthority).employee(re5).build());
-        userRepository.save(User.builder().userName("Representative6").password("password6").authority(representativeAuthority).employee(re5).build());
-        userRepository.save(User.builder().userName("Representative7").password("password7").authority(representativeAuthority).employee(re6).build());
-        userRepository.save(User.builder().userName("Representative8").password("password8").authority(representativeAuthority).employee(re7).build());
+        userRepository.save(User.builder().userName("Representative1").password(passwordEncoder.encode("password1")).authority(representativeAuthority).employee(re1).build());
+        userRepository.save(User.builder().userName("Representative2").password(passwordEncoder.encode("password2")).authority(representativeAuthority).employee(re2).build());
+        userRepository.save(User.builder().userName("Representative3").password(passwordEncoder.encode("password3")).authority(representativeAuthority).employee(re3).build());
+        userRepository.save(User.builder().userName("Representative4").password(passwordEncoder.encode("password4")).authority(representativeAuthority).employee(re4).build());
+        userRepository.save(User.builder().userName("Representative5").password(passwordEncoder.encode("password5")).authority(representativeAuthority).employee(re5).build());
+        userRepository.save(User.builder().userName("Representative6").password(passwordEncoder.encode("password6")).authority(representativeAuthority).employee(re5).build());
+        userRepository.save(User.builder().userName("Representative7").password(passwordEncoder.encode("password7")).authority(representativeAuthority).employee(re6).build());
+        userRepository.save(User.builder().userName("Representative8").password(passwordEncoder.encode("password8")).authority(representativeAuthority).employee(re7).build());
 
-        userRepository.save(User.builder().userName("Manager1").password("password1").authority(managerAuthority).employee(m1).build());
-        userRepository.save(User.builder().userName("Manager2").password("password2").authority(managerAuthority).employee(m2).build());
-        userRepository.save(User.builder().userName("Manager3").password("password3").authority(managerAuthority).employee(m3).build());
+        userRepository.save(User.builder().userName("Manager1").password(passwordEncoder.encode("password1")).authority(managerAuthority).employee(m1).build());
+        userRepository.save(User.builder().userName("Manager2").password(passwordEncoder.encode("password2")).authority(managerAuthority).employee(m2).build());
+        userRepository.save(User.builder().userName("Manager3").password(passwordEncoder.encode("password3")).authority(managerAuthority).employee(m3).build());
 
     }
 }

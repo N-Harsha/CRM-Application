@@ -1,6 +1,5 @@
 package com.ennea.valuemanage.Model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.Entity;
