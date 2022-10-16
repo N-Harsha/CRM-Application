@@ -16,8 +16,8 @@ import java.util.Set;
 public class User extends BaseEntity {
     String userName;
     String password;
-    @OneToOne
-    Employee employee;
+
+    Long employeeId;
 
 
     @ManyToMany
@@ -31,7 +31,7 @@ public class User extends BaseEntity {
         super(id);
         this.userName = userName;
         this.password = password;
-        this.employee = employee;
+        this.employeeId = employee.getId();
         this.authorities=authorities;
     }
 }

@@ -18,15 +18,15 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     public Page<Customer> findAllCustomers(Long id, PageRequest pageRequest);
 
     @Query("select attendance.presenceDate from Attendance attendance where attendance.employee.id=?1 and attendance.presenceDate between ?2 and ?3")
-    List<LocalDate> findAllPresentDates(Long id, LocalDate st_date, LocalDate end_date);
+    Page<LocalDate> findAllPresentDates(Long id, LocalDate st_date, LocalDate end_date,PageRequest pageRequest);
 
     @Query("select report from Report report where report.employee.id=?1")
-    List<Report> findAllReports(Long id);
+    Page<Report> findAllReports(Long id,PageRequest pageRequest);
 
     @Query("select report from Report report where report.employee.id=?1 and report.date=?2")
     Optional<Report> findTodaysReport(Long id, LocalDate now);
 
     @Query("select employee from Employee employee where employee.supervisor.id=?1")
-    List<Employee> findAllSubordinates(Long id);
+    Page<Employee> findAllSubordinates(Long id,PageRequest pageRequest);
 
 }
