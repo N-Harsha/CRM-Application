@@ -4,6 +4,7 @@ import com.ennea.valuemanage.Model.*;
 import com.ennea.valuemanage.Repositories.*;
 import com.ennea.valuemanage.Services.CustomerService;
 import com.ennea.valuemanage.Services.EmployeeService;
+import com.ennea.valuemanage.Services.UserDetailsService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,10 @@ public class BootStrap implements CommandLineRunner {
     EmployeeService employeeService;
     CustomerService customerService;
 
-    public BootStrap(EmployeeService employeeService, CustomerService customerService) {
+    UserDetailsService userDetailsService;
+
+    public BootStrap(EmployeeService employeeService, CustomerService customerService,
+                     UserDetailsService userDetailsService) {
         this.employeeService = employeeService;
         this.customerService = customerService;
     }
@@ -108,7 +112,7 @@ public class BootStrap implements CommandLineRunner {
         employeeService.save(re7);
         employeeService.save(re8);
 
-        UserDetails user1=UserDetails.builder().userName("").build();
+//        UserDetails user1=userDetailsService.addUser(UserDetails.builder().userName("representative1").password("password1").employee(re1).build());
 
 
     }
