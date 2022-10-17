@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 const AddForm = (props) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
   const submitHandler = (event) => {
     event.preventDefault();
     console.log(event);
@@ -78,10 +79,9 @@ const AddForm = (props) => {
               </td>
               <td>
                 <input
-                  type="tel"
+                  type="number"
                   pattern="[6-9]{1}[0-9]{9}"
-                  maxLength={10}
-                  onkeypress="return onlyNumberKey(event)"
+                  max={99999999999}
                   required
                 ></input>
               </td>
@@ -118,9 +118,9 @@ const AddForm = (props) => {
               </td>
               <td>
                 <input
-                  type="tel"
-                  maxLength={6}
-                  onkeypress="return onlyNumberKey(event)"
+                  type="number"
+                  pattern="[0-9]{6}"
+                  max={999999}
                   required
                 ></input>
               </td>

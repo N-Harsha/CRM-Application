@@ -35,16 +35,25 @@ const RepresentativeReport = (props) => {
         </tr>
       </thead>
       <tbody>
-        {list.map((data) => (
-          <tr key={data.id}>
-            <td>{data.id}</td>
-            <td>{data.totalMet}</td>
-            <td>{data.newOnboarded}</td>
-            <td>{data.existingMet}</td>
-            <td>{data.ordersPlaced}</td>
-            <td>{data.comment}</td>
-          </tr>
-        ))}
+        {list.map(
+          ({
+            date,
+            existingMet,
+            newOnboarded,
+            ordersPlaced,
+            totalMet,
+            comment,
+          }) => (
+            <tr key={date + comment.name}>
+              <td>{date}</td>
+              <td>{totalMet}</td>
+              <td>{newOnboarded}</td>
+              <td>{existingMet}</td>
+              <td>{ordersPlaced}</td>
+              <td>{comment.text}</td>
+            </tr>
+          )
+        )}
       </tbody>
     </table>
   );
