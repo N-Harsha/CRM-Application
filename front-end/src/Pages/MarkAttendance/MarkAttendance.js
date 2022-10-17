@@ -2,21 +2,32 @@ import "./MarkAttendance.css";
 import React from "react";
 import { Calendar } from "react-calendar";
 import moment from "moment";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Calendar.css";
-const MarkAttendance = () => {
+const MarkAttendance = (props) => {
   const date = new Date();
-  const [mark, setmark] = useState(["12-10-2022", "11-10-2022", "25-08-2022"]);
+  const [mark, setmark] = useState([]);
+  const fetchdatelist = async () => {
+    const response = await fetch(
+      "http://192.168.29.5:8080/api/v1/manager/1/representatives"
+    );
+    const data = await response.json();
+    setmark(data);
+  };
+
+  useEffect(() => {
+    fetchdatelist();
+  }, []);
   const attendanceHandler = (event) => {
     event.preventDefault();
     const today =
-      (date.getDate() > 9 ? date.getDate() : "0" + date.getDate()) +
+      date.getFullYear() +
       "-" +
       (date.getMonth() > 8
         ? date.getMonth() + 1
         : "0" + (date.getMonth() + 1)) +
       "-" +
-      date.getFullYear();
+      (date.getDate() > 9 ? date.getDate() : "0" + date.getDate());
     setmark([...mark, today]);
   };
   return (
@@ -24,7 +35,7 @@ const MarkAttendance = () => {
       <Calendar
         value={date}
         tileClassName={({ date, view }) => {
-          if (mark.find((x) => x === moment(date).format("DD-MM-YYYY"))) {
+          if (mark.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
             return "highlight";
           }
         }}

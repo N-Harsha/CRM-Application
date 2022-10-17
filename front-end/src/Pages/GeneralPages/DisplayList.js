@@ -8,10 +8,10 @@ const DisplayList=(props)=>{
       <table className="table table-hover">
         <thead>
           <tr key="TableHead">
-            <th>{props.type} Name</th>
+            <th>{props.type==="rep"?"Retailer":"Distributor"} Name</th>
             <th>Phone</th>
-            <th>{props.type} ID</th>
-            {props.type==="Distributor" && <th>ERP</th>}
+            <th>{props.type==="rep"?"Retailer":"Distributor"} ID</th>
+            {props.type==="man" && <th>ERP</th>}
             <th>Street</th>
             <th>City</th>
             <th>Pin Code</th>
@@ -21,7 +21,7 @@ const DisplayList=(props)=>{
         </thead>
         <tbody>
           {props.table.map((data) => (
-            <ListItem key={data.UID} item={data} type="Retailer"></ListItem>
+            <ListItem key={data.id} item={data} type={props.type}></ListItem>
           ))}
         </tbody>
       </table>

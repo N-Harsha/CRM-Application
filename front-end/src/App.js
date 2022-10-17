@@ -12,6 +12,8 @@ import AddForm from "./Pages/GeneralPages/AddForm";
 import Report from "./Pages/Reports/Report";
 import Dummy from "./Pages/AssociatedRetailers/Dummy";
 import Calendar from "./Pages/MarkAttendance/Calendar";
+import AssociatedRepresentatives from "./Pages/AssociatedRepresentatives/AssociatedRepresentatives";
+import RepresentativeDetail from "./Pages/AssociatedRepresentatives/RepresentativeDetail";
 function App() {
   const retailer=useSelector(state=>state.retailer);
   const dispatch=useDispatch();
@@ -22,18 +24,18 @@ function App() {
   const uname=retailer.uname;
   return (
     <div className="Appdiv text-center">
-      {uname==="rep" && retailer.isLoggedIn && <NavBar onClick={LoginHandler} type="ret"/>}
+      {uname==="rep" && retailer.isLoggedIn && <NavBar onClick={LoginHandler} type="rep"/>}
       {uname==="man" && retailer.isLoggedIn && <NavBar onClick={LoginHandler} type="man"/>}
       <div className="route-div">
        {uname==="rep" &&  <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login onClick={LoginHandler}/>} />
           <Route path="/dashboard" element={<DashBoard />} />
-          <Route path="/AssociateRetailers/" element={<AssociatedRetailers type="Retailer"/>} />
-          <Route path="/AssociatedRetailers/:UID" element={<Dummy/>}></Route>
-          <Route path="/MarkAttendance" element={<Calendar />} />
-          <Route path="/Reports" element={<Report type="Retailer" />} />
-          <Route path="/NewRetailer" element={<NewRetailer type="Retailer"/>} />
+          <Route path="/AssociateRetailers/" element={<AssociatedRetailers type="rep"/>} />
+          <Route path="/AssociatedRetailers/:UID" element={<Dummy type="rep"/>}></Route>
+          <Route path="/MarkAttendance" element={<Calendar type="rep"/>} />
+          <Route path="/Reports" element={<Report type="Retailers" />} />
+          <Route path="/NewRetailer" element={<NewRetailer type="rep"/>} />
           <Route
             path="/NewRetailer/new"
             element={<AddForm type="Retailer" />}
@@ -43,11 +45,12 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login onClick={LoginHandler}/>} />
           <Route path="/dashboard" element={<DashBoard />} />
-          <Route path="/AssociateDistributors/" element={<AssociatedRetailers type="Distributor"/>} />
-          <Route path="/AssociatedDistributors/:UID" element={<Dummy/>}></Route>
-          <Route path="/MarkAttendance" element={<Calendar />} />
-          <Route path="/Reports" element={<Report type="Distributor" />} />
-          <Route path="/NewDistributor" element={<NewRetailer type="Distributor"/>} />
+          <Route path="/AssociateDistributors/" element={<AssociatedRetailers type="man"/>} />
+          <Route path="/AssociatedRepresentatives" element={<AssociatedRepresentatives />}></Route>
+          <Route path="/AssociatedRepresentatives/:UID" element={<RepresentativeDetail/>}></Route>
+          <Route path="/MarkAttendance" element={<Calendar type="man"/>} />
+          <Route path="/Reports" element={<Report type="Distributors" />} />
+          <Route path="/NewDistributor" element={<NewRetailer type="man"/>} />
           <Route
             path="/NewDistributor/new"
             element={<AddForm type="Distributor" />}

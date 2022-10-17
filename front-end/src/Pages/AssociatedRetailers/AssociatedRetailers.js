@@ -1,55 +1,39 @@
 import DisplayList from "../GeneralPages/DisplayList";
-import React, { useEffect, useState } from "react";
+import React, { useState ,useEffect} from "react";
 
-const AssociatedRetailers = (props) => {
-  const dummy = [
-    {
-      name: "Retailer1",
-      phone: "888888888",
-      UID: "TestRetailer1",
-      Address: {
-        street: "Jubliee Hills",
-        city: "Hyd",
-        pincode: "500036",
-        state: "Telangana",
-        country: "India",
-      },
-    },
-    {
-      name: "Retailer2",
-      phone: "888888888",
-      UID: "TestRetailer2",
-      Address: {
-        street: "White Center",
-        city: "Seattle",
-        pincode: "98101",
-        state: "Washington",
-        country: "US",
-      },
-    },
-  ];
-
-  const [retailers, setRetailer] = useState();
+const AssociatedRetailers= (props)=>{
+  const [list,setlist]=useState([]);
+  if(props.type==="rep"){
+  
+  const fetchRetailerlist = async () => {
+  const response = await fetch(
+      "http://localhost:8080/api/v1/representative/2/retailers"
+    );
+   const data = await response.json();
+    setlist(data.content);
+  };
 
   useEffect(() => {
-    async () => {
-      console.log("hello");
-      const response = await fetch(
-        "http://192.168.29.5:8080/api/v1/manager/1/representatives"
-      );
-      if (!response.ok) {
-        console.log("ERROR");
-        return;
-      }
-      const data = await response.json();
+    fetchRetailerlist();
+  }, []);}
+  else{
+  const fetchDistributorlist = async () => {
+  const response = await fetch(
+      "http://192.168.29.5:8080/api/v1/manager/1/distributors"
+    );
+   const data = await response.json();
+    setlist(data.content);
+  };
 
-      setRetailer(data);
-    };
+  useEffect(() => {
+    fetchDistributorlist();
   }, []);
-  return (
-    <>
-      <DisplayList table={dummy} type={props.type}></DisplayList>
-    </>
-  );
+  }
+
+    return(
+        <>
+        <DisplayList table={list} type={props.type}></DisplayList>
+        </>
+    );
 };
 export default AssociatedRetailers;

@@ -1,39 +1,44 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import TableItem from "./TableItem";
 import AddButton from "./AddButton";
 import "./DisplayTable.css";
 import { useNavigate } from "react-router-dom";
 const DisplayTable = (props) => {
-  const [dummy,setdummy] =useState( [
-    {
-      name: "Retailer1",
-      phone: "888888888",
-      UID: "TestRetailer1",
-      Address: {
-        street: "Jubliee Hills",
-        city: "Hyd",
-        pincode:"500036",
-        state: "Telangana",
-        country: "India",
-      },
-    },
-    {
-      name: "Retailer2",
-      phone: "888888888",
-      UID: "TestRetailer2",
-      Address: {
-        street: "White Center",
-        city: "Seattle",
-        pincode:"98101",
-        state: "Washington",
-        country: "US",
-      },
-    },
-  ]);
+  const [list,setlist]=useState([]);
+  if(props.type==="rep"){
+  
+  const fetchRetailerlist = async () => {
+  const response = await fetch(
+      "http://192.168.29.5:8080/api/v1/representative/2/retailers"
+    );
+   const data = await response.json();
+    setlist(data.content);
+  };
+
+  useEffect(() => {
+    fetchRetailerlist();
+  }, []);}
+  else{
+  const fetchDistributorlist = async () => {
+  const response = await fetch(
+      "http://192.168.29.5:8080/api/v1/manager/1/distributors"
+    );
+   const data = await response.json();
+    setlist(data.content);
+  };
+
+  useEffect(() => {
+    fetchDistributorlist();
+  }, []);
+  }
   const navigate=useNavigate();
   const clickHandler=()=>{
-    console.log("clickHandler")
+    if(props.type==="rep"){
     navigate("/NewRetailer/new");
+    }
+    else{
+      navigate("/NewDistributor/new")
+    }
   }
   return (
     <div>
@@ -44,7 +49,7 @@ const DisplayTable = (props) => {
             <th>{props.type} Name</th>
             <th>Phone</th>
             <th>{props.type} ID</th>
-            {props.type==="Distributor" && <th>ERP</th>}
+            {props.type==="man" && <th>ERP</th>}
             <th>Street</th>
             <th>City</th>
             <th>Pin Code</th>
@@ -53,8 +58,8 @@ const DisplayTable = (props) => {
           </tr>
         </thead>
         <tbody>
-          {dummy.map((data) => (
-            <TableItem key={data.UID  } item={data} />
+          {list.map((data) => (
+            <TableItem key={data.id } item={data} type={props.type} />
           ))}
         </tbody>
       </table>

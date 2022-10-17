@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+// eslint-disable-next-line
 import React from "react";
 const retailerSlice=createSlice({
     name : "retailer",
