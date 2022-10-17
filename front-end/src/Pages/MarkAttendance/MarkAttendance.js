@@ -6,13 +6,22 @@ import { useState, useEffect } from "react";
 import "./Calendar.css";
 const MarkAttendance = (props) => {
   const date = new Date();
+  const token = localStorage.getItem("token");
   const [mark, setmark] = useState([]);
   const fetchdatelist = async () => {
     const response = await fetch(
-      "http://localhost:8080/api/v1/attendance?month=10&year=2022"
+      "http://localhost:8080/api/v1/attendance?month=10&year=2022",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + token,
+        },
+      }
     );
     const data = await response.json();
-    setmark(data);
+    setmark(data.content);
   };
 
   useEffect(() => {
@@ -28,9 +37,14 @@ const MarkAttendance = (props) => {
         : "0" + (date.getMonth() + 1)) +
       "-" +
       (date.getDate() > 9 ? date.getDate() : "0" + date.getDate());
-      fetch('http://localhost:8080/api/v1/attendance', {
-        method: 'post',
-       });
+    fetch("http://localhost:8080/api/v1/attendance", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + token,
+      },
+    });
     setmark([...mark, today]);
   };
   return (

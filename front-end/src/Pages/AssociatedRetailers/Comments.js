@@ -6,7 +6,7 @@ const Comments = (props) => {
   if (props.type === "rep") {
     const fetchRetailerorders = async () => {
       const response = await fetch(
-        `http://192.168.29.5:8080/api/v1/retailer/${props.id}/comments`,
+        `http://192.168.29.5:8080/api/v1/retailers/${props.id}/comments`,
         {
           method: "GET",
           headers: {
@@ -19,7 +19,7 @@ const Comments = (props) => {
       );
       const data = await response.json();
       console.log(data);
-      setlist(data);
+      setlist(data.content);
     };
 
     useEffect(() => {

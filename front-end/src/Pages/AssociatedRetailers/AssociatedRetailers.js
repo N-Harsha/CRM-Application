@@ -8,8 +8,6 @@ const AssociatedRetailers = (props) => {
     const fetchRetailerlist = async () => {
       const response = await fetch("http://localhost:8080/api/v1/retailers", {
         method: "GET",
-        mode: "no-cors",
-        dataType: "json",
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",

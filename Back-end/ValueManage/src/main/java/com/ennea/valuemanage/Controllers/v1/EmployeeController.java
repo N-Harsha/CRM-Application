@@ -111,4 +111,11 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getReports(id,
                 PageRequest.of(page,size, Sort.Direction.DESC,"date")),HttpStatus.OK);
     }
+
+    @GetMapping({"/representatives/{id}/retailers","managers/{id}/distributors"})
+    public ResponseEntity<Page<CustomerDTO>> getRetailers(@PathVariable Long id,
+                                                          @RequestParam(defaultValue = "0")int page,
+                                                          @RequestParam(defaultValue = "10")int size){
+        return new ResponseEntity<>(employeeService.getCustomers(id,PageRequest.of(page,size)),HttpStatus.OK);
+    }
 }

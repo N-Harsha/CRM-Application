@@ -1,45 +1,60 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import TableItem from "./TableItem";
 import AddButton from "./AddButton";
 import "./DisplayTable.css";
 import { useNavigate } from "react-router-dom";
 const DisplayTable = (props) => {
-  const [list,setlist]=useState([]);
-  if(props.type==="rep"){
-  
-  const fetchRetailerlist = async () => {
-  const response = await fetch(
-      "http://192.168.29.5:8080/api/v1/representative/2/retailers"
-    );
-   const data = await response.json();
-    setlist(data.content);
-  };
+  const [list, setlist] = useState([]);
+  const token = localStorage.getItem("token");
+  if (props.type === "rep") {
+    const fetchRetailerlist = async () => {
+      const response = await fetch(
+        "http://192.168.29.5:8080/api/v1/retailers",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      const data = await response.json();
+      setlist(data.content);
+    };
 
-  useEffect(() => {
-    fetchRetailerlist();
-  }, []);}
-  else{
-  const fetchDistributorlist = async () => {
-  const response = await fetch(
-      "http://192.168.29.5:8080/api/v1/manager/1/distributors"
-    );
-   const data = await response.json();
-    setlist(data.content);
-  };
+    useEffect(() => {
+      fetchRetailerlist();
+    }, []);
+  } else {
+    const fetchDistributorlist = async () => {
+      const response = await fetch(
+        "http://192.168.29.5:8080/api/v1/distributors",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      const data = await response.json();
+      setlist(data.content);
+    };
 
-  useEffect(() => {
-    fetchDistributorlist();
-  }, []);
+    useEffect(() => {
+      fetchDistributorlist();
+    }, []);
   }
-  const navigate=useNavigate();
-  const clickHandler=()=>{
-    if(props.type==="rep"){
-    navigate("/NewRetailer/new");
+  const navigate = useNavigate();
+  const clickHandler = () => {
+    if (props.type === "rep") {
+      navigate("/NewRetailer/new");
+    } else {
+      navigate("/NewDistributor/new");
     }
-    else{
-      navigate("/NewDistributor/new")
-    }
-  }
+  };
   return (
     <div>
       <AddButton title={props.type} onClick={clickHandler} />
@@ -49,7 +64,7 @@ const DisplayTable = (props) => {
             <th>{props.type} Name</th>
             <th>Phone</th>
             <th>{props.type} ID</th>
-            {props.type==="man" && <th>ERP</th>}
+            {props.type === "man" && <th>ERP</th>}
             <th>Street</th>
             <th>City</th>
             <th>Pin Code</th>
@@ -59,7 +74,7 @@ const DisplayTable = (props) => {
         </thead>
         <tbody>
           {list.map((data) => (
-            <TableItem key={data.id } item={data} type={props.type} />
+            <TableItem key={data.id} item={data} type={props.type} />
           ))}
         </tbody>
       </table>
