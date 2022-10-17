@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeController {
 
     EmployeeService employeeService;
