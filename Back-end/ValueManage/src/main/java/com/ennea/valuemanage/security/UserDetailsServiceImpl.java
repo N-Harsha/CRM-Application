@@ -30,22 +30,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.debug("-----------------------------------------------------------------------------------");
-        User user=userRepository.findUserByUserName(username).orElseThrow(()->{
+        User user=userRepository.findUserByUsername(username).orElseThrow(()->{
             return new UsernameNotFoundException("Username : "+username+" is not found");
         });
-        return new org.springframework.security.core.userdetails.User(user.getUserName(),user.getPassword(), covertToSprigAuthorities(user.getAuthorities()));
+        return user;
     }
 
-    private Collection<? extends GrantedAuthority> covertToSprigAuthorities(Set<Authority> authorities) {
-        if(authorities!=null&&authorities.size()>0){
-            return authorities.stream()
-                    .map(Authority::getRole)
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toSet());
-        }
-        return new HashSet<>();
-    }
+
 
 
 }

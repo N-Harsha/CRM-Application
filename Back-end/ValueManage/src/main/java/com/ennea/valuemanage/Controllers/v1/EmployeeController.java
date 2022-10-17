@@ -37,7 +37,7 @@ public class EmployeeController {
 
 
     private Long findIdByPrinciple(Principal principal){
-        return userRepository.findUserByUserName(principal.getName()).get().getEmployeeId();
+        return userRepository.findUserByUsername(principal.getName()).get().getEmployeeId();
     }
 
     @GetMapping({"/retailers","/distributors"})

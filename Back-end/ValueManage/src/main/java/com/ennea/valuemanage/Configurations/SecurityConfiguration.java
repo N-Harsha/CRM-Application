@@ -1,5 +1,6 @@
 package com.ennea.valuemanage.Configurations;
 
+import com.ennea.valuemanage.security.JWT.JwtTokenFilter;
 import com.ennea.valuemanage.security.RestUrlAuthFilter;
 import com.ennea.valuemanage.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -25,6 +27,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     UserDetailsService userDetailsService;
+    @Autowired
+    JwtTokenFilter jwtTokenFilter;
 
     public SecurityConfiguration(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -38,13 +42,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(restUrlAuthFilter(authenticationManager()),
-                UsernamePasswordAuthenticationFilter.class);
-
+//
+//        http.addFilterBefore(restUrlAuthFilter(authenticationManager()),
+//                UsernamePasswordAuthenticationFilter.class);
+//
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
 
         http.authorizeRequests(authorize ->{
             authorize
-                .antMatchers("/h2-console/**").permitAll();})
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/auth/login").permitAll();})
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/api/v1/retailers").hasRole("REPRESENTATIVE")
                 .antMatchers(HttpMethod.POST,"/api/v1/retailers").hasRole("REPRESENTATIVE")
@@ -54,17 +63,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/api/v1/attendance").hasAnyRole("MANAGER","REPRESENTATIVE")
                 .antMatchers(HttpMethod.POST,"/api/v1/reports").hasAnyRole("MANAGER","REPRESENTATIVE")
                 .antMatchers(HttpMethod.GET,"/api/v1/reports/today").hasAnyRole("MANAGER","REPRESENTATIVE")
-//                .antMatchers(HttpMethod.POST,"/api/v1/retailers").hasAnyRole("MANAGER","REPRESENTATIVE")
-
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin().and()
-                .httpBasic();
-        ;
+                .authenticated();
 
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
+        http.addFilterBefore(jwtTokenFilter,UsernamePasswordAuthenticationFilter.class);
+
+
 
 
 //        http.addFilterBefore(restUrlAuthFilter(authenticationManager()),
@@ -94,4 +98,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @Bean
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
 }
