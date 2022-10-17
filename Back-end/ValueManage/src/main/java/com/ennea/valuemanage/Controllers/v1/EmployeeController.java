@@ -3,73 +3,103 @@ package com.ennea.valuemanage.Controllers.v1;
 import com.ennea.valuemanage.API.v1.DTO.CustomerDTO;
 import com.ennea.valuemanage.API.v1.DTO.EmployeeDTO;
 import com.ennea.valuemanage.API.v1.DTO.ReportDTO;
+import com.ennea.valuemanage.API.v1.Mapper.CustomerMapper;
+import com.ennea.valuemanage.Repositories.security.UserRepository;
 import com.ennea.valuemanage.Services.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1")
+@CrossOrigin
 public class EmployeeController {
 
     EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    UserRepository userRepository;
+
+    public EmployeeController(EmployeeService employeeService,
+                              UserRepository userRepository) {
         this.employeeService = employeeService;
+        this.userRepository = userRepository;
     }
 
-    @GetMapping({"/representative/{id}/retailers","/manager/{id}/distributors"})
-    //todo make controllers specific to employees along with validation of represnetative and manager
-    public ResponseEntity<Page<CustomerDTO>> getCustomers(@PathVariable Long id,
+
+    private Long findIdByPrinciple(Principal principal){
+        return userRepository.findUserByUsername(principal.getName()).get().getEmployeeId();
+    }
+
+    @GetMapping({"/retailers","/distributors"})
+    public ResponseEntity<Page<CustomerDTO>> getCustomers(Principal principal,
                                                           @RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "10") int size
                                                           ){
-        return new ResponseEntity<>(employeeService.getCustomers(id, PageRequest.of(page,size)), HttpStatus.OK);
+
+        return new ResponseEntity<>(employeeService.getCustomers(findIdByPrinciple(principal), PageRequest.of(page,size)), HttpStatus.OK);
     }
 
-    @GetMapping({"/representative/{id}/attendance","/manager/{id}/attendance"})
-    public ResponseEntity<List<LocalDate>> getPresentDates(@PathVariable Long id, @RequestParam(name="month") int month, @RequestParam(name="year") int year){
+    @PostMapping({"/retailers","/distributors"})
+    public ResponseEntity<Void> addNewCustomer(Principal principal,@RequestBody CustomerDTO customerDTO){
+        employeeService.saveCustomer(findIdByPrinciple(principal),customerDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    @GetMapping({"/attendance"})
+    public ResponseEntity<Page<LocalDate>> getPresentDates(Principal principal, @RequestParam(name="month") int month, @RequestParam(name="year") int year){
+
+        return new ResponseEntity<>(employeeService.getPresentDates(findIdByPrinciple(principal),month,year),HttpStatus.OK);
+
+    }
+
+    @PostMapping("/attendance")
+    public ResponseEntity<Void> markAttendance(Principal principal){
+        employeeService.markAttendance(findIdByPrinciple(principal));
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @PostMapping( "/reports") //for themselves
+    public ResponseEntity<Void> submitReport(Principal principal,@RequestBody ReportDTO reportDTO){
+        employeeService.submitReport(findIdByPrinciple(principal),reportDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/reports/today") //for both manager and rep
+    public ResponseEntity<Boolean> hasSubmittedReport(Principal principal){
+        return new ResponseEntity<>(employeeService.getReportToday(findIdByPrinciple(principal)),HttpStatus.OK);
+    }
+
+    @GetMapping({"/representatives", "/managers"})//only for manager and admins
+    public ResponseEntity<Page<EmployeeDTO>> getSubordinates(Principal principal,
+                                                             @RequestParam(defaultValue = "0")int page,
+                                                             @RequestParam(defaultValue = "10")int size){
+        return new ResponseEntity<>(employeeService.getSubordinates(findIdByPrinciple(principal),PageRequest.of(page,size)),HttpStatus.OK);
+    }
+
+    @GetMapping({"/representatives/{id}/attendance","/managers/{id}/attendance"})
+    public ResponseEntity<Page<LocalDate>> getPresentDates(@PathVariable Long id, @RequestParam(name="month") int month, @RequestParam(name="year") int year){
 
         return new ResponseEntity<>(employeeService.getPresentDates(id,month,year),HttpStatus.OK);
 
     }
 
-    @GetMapping({"/representative/{id}/reports", "/manager/{id}/reports"})
-    public ResponseEntity<List<ReportDTO>> getReports(@PathVariable Long id){
+    @GetMapping({"/representatives/{id}/reports", "/managers/{id}/attendance"})
+    public ResponseEntity<Page<ReportDTO>> getReports(@PathVariable Long id,
+                                                      @RequestParam(defaultValue = "0")int page,
+                                                      @RequestParam(defaultValue = "10")int size){
 
-        return new ResponseEntity<>(employeeService.getReports(id),HttpStatus.OK);
-    }
-
-    @PostMapping({"/representative/{id}/attendance/new","/manager/{id}/attendance/new"})
-    public ResponseEntity<Void> markAttendance(@PathVariable Long id){
-        employeeService.markAttendance(id);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @PostMapping({"/representative/{id}/report/new", "/manager/{id}/report/new"})
-    public ResponseEntity<Void> submitReport(@PathVariable Long id,@RequestBody ReportDTO reportDTO){
-        employeeService.submitReport(id,reportDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @PostMapping({"/representative/{id}/retailer/new","/manager/{id}/distributor/new"})
-    public ResponseEntity<Void> addNewCustomer(@PathVariable Long id,@RequestBody CustomerDTO customerDTO){
-        employeeService.saveCustomer(id,customerDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @GetMapping({"/representative/{id}/report/today", "/manager/{id}/report/today"})
-    public ResponseEntity<Boolean> hasSubmittedReport(@PathVariable Long id){
-        return new ResponseEntity<>(employeeService.getReportToday(id),HttpStatus.OK);
-    }
-
-    @GetMapping("/manager/{id}/representatives")
-    public ResponseEntity<List<EmployeeDTO>> getSubordinates(@PathVariable Long id){
-        return new ResponseEntity<>(employeeService.getSubordinates(id),HttpStatus.OK);
+        return new ResponseEntity<>(employeeService.getReports(id,
+                PageRequest.of(page,size, Sort.Direction.DESC,"date")),HttpStatus.OK);
     }
 }

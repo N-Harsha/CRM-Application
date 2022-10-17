@@ -2,29 +2,27 @@ import React from "react";
 import { useState,useEffect } from "react";
 const RepresentativeReport=(props)=>{
     const [list,setlist]=useState([]);
-  if(props.type==="rep"){
-  
-  const fetchRetailerorders = async () => {
+  const fetchRetailerreports = async () => {
   const response = await fetch(
-      `http://192.168.29.5:8080/api/v1/retailer/${props.id}/orders`
+      `http://localhost:8080/api/v1/retailer/${props.id}/orders`
     );
    const data = await response.json();
-   console.log(data);
+   console.log(data.content);
     setlist(data);
   };
-
-
   useEffect(() => {
-    fetchRetailerorders();
-  }, []);}
+    fetchRetailerreports();
+  }, []);
     return(
         <table className="table table-hover">
         <thead>
             <tr>
-                <td>Order Id</td>
-                <td>Product Name</td>
-                <td>Supplier Name</td>
-                <td>Amount(in Rs.)</td>
+                <td>Date</td>
+                <td>Total Retailers Met</td>
+                <td>New Retailer Onbaorded</td>
+                <td>Previous Retailers Met</td>
+                <td>Orders Placed</td>
+                <td>Comments</td>
             </tr>
         </thead>
         <tbody>

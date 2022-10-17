@@ -7,7 +7,7 @@ const AssociatedRetailers= (props)=>{
   
   const fetchRetailerlist = async () => {
   const response = await fetch(
-      "http://192.168.29.5:8080/api/v1/representative/2/retailers"
+      "http://localhost:8080/api/v1/representative/2/retailers"
     );
    const data = await response.json();
     setlist(data.content);

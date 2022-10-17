@@ -1,7 +1,7 @@
 package com.ennea.valuemanage.Services;
 
 
-import com.ennea.valuemanage.API.v1.DTO.OrderDTO;
+import com.ennea.valuemanage.API.v1.DTO.OrdersDTO;
 import com.ennea.valuemanage.API.v1.Mapper.OrderMapper;
 import com.ennea.valuemanage.Model.Comment;
 import com.ennea.valuemanage.Model.Customer;
@@ -10,6 +10,8 @@ import com.ennea.valuemanage.Repositories.AddressRepository;
 import com.ennea.valuemanage.Repositories.CommentRepository;
 import com.ennea.valuemanage.Repositories.CustomerRepository;
 import com.ennea.valuemanage.Repositories.OrderRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,13 +66,13 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public List<OrderDTO> getOrders(Long id) {
-        return customerRepository.findAllOrders(id).stream().map(orderMapper::orderToOrderDTO).collect(Collectors.toList());
+    public Page<OrdersDTO> getOrders(Long id, PageRequest pageRequest) {
+        return customerRepository.findAllOrders(id,pageRequest).map(orderMapper::orderToOrderDTO);
     }
 
     @Override
-    public List<Comment> getComments(Long id) {
-        return customerRepository.findAllComments(id);
+    public Page<Comment> getComments(Long id, PageRequest pageRequest) {
+        return customerRepository.findAllComments(id,pageRequest);
     }
 
     @Override

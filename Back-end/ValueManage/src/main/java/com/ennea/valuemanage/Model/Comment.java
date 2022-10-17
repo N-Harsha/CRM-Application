@@ -3,10 +3,7 @@ package com.ennea.valuemanage.Model;
 import lombok.*;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter

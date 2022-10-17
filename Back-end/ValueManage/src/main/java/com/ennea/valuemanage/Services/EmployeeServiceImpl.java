@@ -13,6 +13,7 @@ import com.ennea.valuemanage.Repositories.EmployeeRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -89,15 +90,16 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public List<LocalDate> getPresentDates(Long id, int month, int year) {
+    public Page<LocalDate> getPresentDates(Long id, int month, int year) {
         return employeeRepository.findAllPresentDates(id,
                 LocalDate.of(year,month,1),
-                LocalDate.of((month+1)<12?year:year+1,(month+1)==13?1:(month+1),1).minusDays(1));
+                LocalDate.of((month+1)<12?year:year+1,(month+1)==13?1:(month+1),1).minusDays(1),
+                PageRequest.of(0,32,Sort.by("presenceDate")));
     }
 
     @Override
-    public List<ReportDTO> getReports(Long id) {
-        return employeeRepository.findAllReports(id).stream().map(reportMapper::reportToReportDTO).collect(Collectors.toList());
+    public Page<ReportDTO> getReports(Long id,PageRequest pageRequest) {
+        return employeeRepository.findAllReports(id,pageRequest).map(reportMapper::reportToReportDTO);
     }
 
     @Override
@@ -137,7 +139,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public List<EmployeeDTO> getSubordinates(Long id) {
-        return employeeRepository.findAllSubordinates(id).stream().map(employeeMapper::employeeToEmployeeDTO).collect(Collectors.toList());
+    public Page<EmployeeDTO> getSubordinates(Long id,PageRequest pageRequest) {
+        return employeeRepository.findAllSubordinates(id,pageRequest).map(employeeMapper::employeeToEmployeeDTO);
     }
 }
