@@ -9,15 +9,33 @@ const Login = (props) => {
   const user=useSelector(state=>state.retailer);
   const dispatch=useDispatch();
   const history = useNavigate();
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    console.log(event);
-    if(event.target[0].value==="rep"){
+    // if(event.target[0].value==="rep"){
+    //   dispatch(retailerActions.repReducer());
+    // }
+    // if(event.target[0].value==="man"){
+    //   dispatch(retailerActions.manreducer());
+    // }
+    const username=event.target[0].value;
+    const password=event.target[1].value;
+    const response= await fetch("http://localhost:8080/auth/login", {
+      method: 'post',
+      body: JSON.stringify({username,password}),
+      headers: {'Content-Type':'application/json'},
+     })
+     console.log(response);
+     const data = await response.json()
+     console.log(data);
+     if(data.role==="REPRESENTATIVE"){
       dispatch(retailerActions.repReducer());
-    }
-    if(event.target[0].value==="man"){
+     }
+     if(data.role==="MANAGER"){
       dispatch(retailerActions.manreducer());
-    }
+     }
+     localStorage.setItem('token',data.token);
+     localStorage.setItem('isLoggedIn',true);
+     localStorage.setItem('role',data.role);
     props.onClick();
     history("/dashboard");
   };

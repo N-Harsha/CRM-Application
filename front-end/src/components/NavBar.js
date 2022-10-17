@@ -23,7 +23,11 @@ const NavBar = (props) => {
         <button
           className="btn btn-primary"
           onClick={() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('role');
             navigate("/");
+            
             props.onClick();
           }}
         >
@@ -47,6 +51,9 @@ const NavBar = (props) => {
         <button
           className="btn btn-primary"
           onClick={() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('role');
             navigate("/");
             props.onClick();
           }}
