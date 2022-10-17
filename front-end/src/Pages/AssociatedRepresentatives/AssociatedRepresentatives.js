@@ -5,7 +5,7 @@ const AssociatedRepresentatives=()=>{
     const [list,setlist]=useState([]);
   const fetchRepresentativelist = async () => {
   const response = await fetch(
-      "http://192.168.29.5:8080/api/v1/manager/1/representatives"
+      "http://localhost:8080/api/v1/representatives"
     );
    const data = await response.json();
     setlist(data);

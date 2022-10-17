@@ -9,7 +9,7 @@ const MarkAttendance = (props) => {
   const [mark, setmark] = useState([]);
   const fetchdatelist = async () => {
     const response = await fetch(
-      "http://192.168.29.5:8080/api/v1/manager/1/representatives"
+      "http://localhost:8080/api/v1/attendance?month=10&year=2022"
     );
     const data = await response.json();
     setmark(data);
@@ -28,6 +28,9 @@ const MarkAttendance = (props) => {
         : "0" + (date.getMonth() + 1)) +
       "-" +
       (date.getDate() > 9 ? date.getDate() : "0" + date.getDate());
+      fetch('http://localhost:8080/api/v1/attendance', {
+        method: 'post',
+       });
     setmark([...mark, today]);
   };
   return (
