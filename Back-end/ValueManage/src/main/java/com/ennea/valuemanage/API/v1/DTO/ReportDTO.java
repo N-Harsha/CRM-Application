@@ -1,7 +1,6 @@
 package com.ennea.valuemanage.API.v1.DTO;
 
 import com.ennea.valuemanage.Model.Comment;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDate;

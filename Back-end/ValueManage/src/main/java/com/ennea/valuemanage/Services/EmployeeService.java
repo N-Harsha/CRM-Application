@@ -14,9 +14,9 @@ public interface EmployeeService {
     public Employee save(Employee employee);
     public Page<CustomerDTO> getCustomers(Long id, PageRequest pageRequest);
 
-    List<LocalDate> getPresentDates(Long id, int month, int year);
+    Page<LocalDate> getPresentDates(Long id, int month, int year);
 
-    List<ReportDTO> getReports(Long id);
+    Page<ReportDTO> getReports(Long id,PageRequest pageRequest);
 
     void markAttendance(Long id);
 
@@ -26,5 +26,5 @@ public interface EmployeeService {
 
     Boolean getReportToday(Long id);
 
-    List<EmployeeDTO> getSubordinates(Long id);
+    Page<EmployeeDTO> getSubordinates(Long id,PageRequest pageRequest);
 }
