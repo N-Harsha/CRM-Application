@@ -3,7 +3,9 @@ import Orders from "./Orders";
 import Comments from "./Comments";
 import React from "react";
 import {useState} from "react";
-const Dummy = () => {
+import { useParams } from "react-router-dom";
+const Dummy = (props) => {
+  const {UID}=useParams();
   const[orders,setorders]=useState(true);
   const OrdersHandler=()=>{
       setorders(true);
@@ -30,8 +32,8 @@ const Dummy = () => {
           </tr>
         </tbody>
       </table>
-      {orders && <Orders></Orders>}
-      {!orders && <Comments></Comments>}
+      {orders && <Orders type={props.type} id={UID}></Orders>}
+      {!orders && <Comments type={props.type} id={UID}></Comments>}
     </div>
   );
 };

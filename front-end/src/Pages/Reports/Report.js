@@ -1,10 +1,16 @@
 import "./Report.css";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 const Report = (props) => {
+  const navigate=useNavigate();
+  const ReportSubmitHandler=(event)=>{
+    event.preventDefault();
+    navigate("/dashboard");
+  }
   return (
     <center>
       <br/><br/>
-      {props.type==="rep" &&<form className="my-form">
+       <form className="my-form" onSubmit={ReportSubmitHandler}>
         <table className="report-table">
           <tbody>
           <tr>
@@ -12,7 +18,7 @@ const Report = (props) => {
               <label>Number of {props.type} Met:</label>
             </td>
             <td>
-              <input type="number" max={100} min={0}></input>
+              <input type="number" max={100} min={0} required></input>
             </td>
           </tr>
           <tr>
@@ -20,7 +26,7 @@ const Report = (props) => {
               <label>Number of {props.type} Onboarded:</label>
             </td>
             <td>
-              <input type="number" max={100} min={0}></input>
+              <input type="number" max={100} min={0} required></input>
             </td>
           </tr>
           <tr>
@@ -28,7 +34,7 @@ const Report = (props) => {
               <label>Number of Previous {props.type} Met:</label>
             </td>
             <td>
-              <input type="number" max={100} min={0}></input>
+              <input type="number" max={100} min={0} required></input>
             </td>
           </tr>
           <tr>
@@ -36,7 +42,7 @@ const Report = (props) => {
               <label>Number of orders placed:</label>
             </td>
             <td>
-              <input type="number" max={100} min={0}></input>
+              <input type="number" max={100} min={0} required></input>
             </td>
           </tr>
           <tr>
@@ -55,15 +61,14 @@ const Report = (props) => {
           </tr>
           <tr>
             <td colSpan={2}>
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary" >
                 Submit Report
               </button>
             </td>
           </tr>
           </tbody>
         </table>
-      </form>}
-      {props.type==="man" && <h1>representative lists with reports</h1>}
+      </form>
     </center>
   );
 };

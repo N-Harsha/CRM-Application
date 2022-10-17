@@ -41,7 +41,7 @@ const NavBar = (props) => {
         </li>
         <NavItem title="Associate Distributors"></NavItem>
         <NavItem title="Associated Representatives" />
-        <NavItem title="See Attendance"></NavItem>
+        <NavItem title="Mark Attendance"></NavItem>
         <NavItem title="Reports"></NavItem>
         <NavItem title="New Distributor"></NavItem>
         <button

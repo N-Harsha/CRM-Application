@@ -1,26 +1,22 @@
 import React from "react";
-const Orders=()=>{
-    const orders=[{
-        orderId:"67853",
-        productName:"1 AL 5MG TABS",
-        supplierName:"TRINETRA MEDICAL AGENCIES",
-        amount:568.93
-    },{
-        orderId:"1234",
-        productName:"ACELO NITRO PHENONE",
-        supplierName:"TRINETRA MEDICAL AGENCIES",
-        amount:2897.56
-    },{
-        orderId:"6783",
-        productName:"DOLO 650 ",
-        supplierName:"SRI MAYURA MEDICAL AGENCIES",
-        amount:7845.15
-    },{
-        orderId:"7853",
-        productName:"GLYCOMET SR 500MG",
-        supplierName:"SRI BHADRA MEDICAL DISTRIBUTORS",
-        amount:485
-    }];
+import { useState,useEffect } from "react";
+const Orders=(props)=>{
+    const [list,setlist]=useState([]);
+  if(props.type==="rep"){
+  
+  const fetchRetailerorders = async () => {
+  const response = await fetch(
+      `http://192.168.29.5:8080/api/v1/retailer/${props.id}/orders`
+    );
+   const data = await response.json();
+   console.log(data);
+    setlist(data);
+  };
+
+
+  useEffect(() => {
+    fetchRetailerorders();
+  }, []);}
     return(
         <table className="table table-hover">
         <thead>
@@ -32,8 +28,8 @@ const Orders=()=>{
             </tr>
         </thead>
         <tbody>
-            {orders.map((data)=><tr key={data.orderId}>
-                <td>{data.orderId}</td>
+            {list.map((data)=><tr key={data.id}>
+                <td>{data.id}</td>
                 <td>{data.productName}</td>
                 <td>{data.supplierName}</td>
                 <td>{data.amount}</td>

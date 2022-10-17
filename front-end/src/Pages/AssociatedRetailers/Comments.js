@@ -1,28 +1,22 @@
 import Card from "../../UI/Card";
-import React, { useState } from "react";
-const Comments = () => {
-  const [ comments,setcomments] = useState([
-    {
-      Name: "SRI MAYURA MEDICAL AGENCIES",
-      Text: "Nice Service thank you for your fast response and delivery",
-      Date: "12/8/2022",
-    },
-    {
-      Name: "SRI Medical Agencies",
-      Text: "Nice thank you for your fast response and delivery",
-      Date: "12/8/2022",
-    },
-    {
-      Name: "SRI MAYURA MEDICAL AGENCIES",
-      Text: "Nice Service thank you your fast response and delivery",
-      Date: "12/8/2022",
-    },
-    {
-      Name: "SRI MAYURA MEDICAL AGENCIES",
-      Text: "Nice Service thank you for your response and delivery",
-      Date: "12/8/2022",
-    },
-  ]);
+import React, { useState,useEffect } from "react";
+const Comments = (props) => {
+  const [list,setlist]=useState([]);
+  if(props.type==="rep"){
+  
+  const fetchRetailerorders = async () => {
+  const response = await fetch(
+      `http://192.168.29.5:8080/api/v1/retailer/${props.id}/comments`
+    );
+   const data = await response.json();
+   console.log(data);
+    setlist(data);
+  };
+
+
+  useEffect(() => {
+    fetchRetailerorders();
+  }, []);}
   const commentsubmitHandler=(event)=>{
     event.preventDefault();
     const myobj={
@@ -30,7 +24,7 @@ const Comments = () => {
       Text:event.target[0].value,
       Date:new Date().toDateString(),
     }
-    setcomments([...comments,myobj]);
+    setlist([...list,myobj]);
   };
   return(
     <>
@@ -41,7 +35,7 @@ const Comments = () => {
     </form>
     <table className="table">
         <tbody>
-    {comments.map((data)=><tr key={data.Date+data.Text+new Date()}><Card data={data}></Card></tr>)}
+    {list.map((data)=><tr key={data.date+data.Text+new Date()}><Card data={data}></Card></tr>)}
     </tbody>
     </table>
     </>

@@ -10,11 +10,11 @@ const Card = (props) => {
         alt={"Logo"}
         style={{ width: "5%", height: "5%", alignContent: "center" }}
       />
-        <strong style={{ color: "black" }}>Date:{props.data.Date}</strong>
+        <strong style={{ color: "black" }}>Date:{props.data.date}</strong>
         <br></br>
-        <strong style={{ color: "black" }}>Posted by:{props.data.Name}</strong>
+        <strong style={{ color: "black" }}>Posted by:{props.data.name}</strong>
         <br></br>
-        Comments:{props.data.Text}
+        Comments:{props.data.text}
       </div>
     </td>
   );

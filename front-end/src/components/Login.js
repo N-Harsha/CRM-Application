@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { retailerActions } from "../store";
 const Login = (props) => {
+  // eslint-disable-next-line
   const user=useSelector(state=>state.retailer);
   const dispatch=useDispatch();
   const history = useNavigate();
@@ -34,7 +35,7 @@ const Login = (props) => {
         </div>
         <br />
         <div>
-          <input type="text" className="username-textbox"></input>
+          <input type="text" className="username-textbox" required></input>
         </div>
         <br />
         <div>
@@ -42,7 +43,7 @@ const Login = (props) => {
         </div>
         <br />
         <div>
-          <input type="password" className="password-textbox"></input>
+          <input type="password" className="password-textbox" required minLength={6}></input>
         </div>
         <br />
         <div>

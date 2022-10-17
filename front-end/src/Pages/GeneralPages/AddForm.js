@@ -1,11 +1,50 @@
 import "./AddForm.css";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 const AddForm = (props) => {
   const navigate=useNavigate();
   const submitHandler=(event)=>{
     event.preventDefault();
-    navigate("/NewRetailer");
+    console.log(event);
+    if(props.type==="Retailer"){
+      
+      const data = {
+        name:event.target[0].value,
+        phoneNo:event.target[1].value,
+        address:{
+         street:event.target[2].value,
+         city:event.target[3].value,
+         pincode:event.target[4].value,
+         state:event.target[5].value,
+         country:event.target[6].value
+        },
+       }
+      fetch('http://192.168.29.5:8080/api/v1/representative/2/retailer/new', {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {'Content-Type':'application/json'},
+       });
+    navigate("/NewRetailer");}
+    else{
+      const data = {
+        name:event.target[0].value,
+        phoneNo:event.target[1].value,
+        erp:event.target[2].value,
+        address:{
+         street:event.target[3].value,
+         city:event.target[4].value,
+         pincode:event.target[5].value,
+         state:event.target[6].value,
+         country:event.target[7].value
+        },
+       }
+      fetch('http://192.168.29.5:8080/api/v1/representative/2/retailer/new', {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {'Content-Type':'application/json'},
+       });
+      navigate("/NewDistributor");
+    }
   }
   return (
       <form onSubmit={submitHandler}>
@@ -22,7 +61,7 @@ const AddForm = (props) => {
                   <label>Name:</label>
                 </td>
                 <td>
-                  <input type="text" ></input>
+                  <input type="text" required></input>
                 </td>
               </tr>
               <tr className="Phone">
@@ -34,6 +73,7 @@ const AddForm = (props) => {
                     type="tel"
                     pattern="[6-9]{1}[0-9]{9}"
                     maxLength={10}
+                    required
                   ></input>
                 </td>
               </tr>
@@ -43,7 +83,7 @@ const AddForm = (props) => {
                     <label>ERP:</label>
                   </td>
                   <td>
-                    <input type="text"></input>
+                    <input type="text" required></input>
                   </td>
                 </tr>
               )}
@@ -52,7 +92,7 @@ const AddForm = (props) => {
                   <label>Street:</label>
                 </td>
                 <td>
-                  <input type="text"></input>
+                  <input type="text" required></input>
                 </td>
               </tr>
               <tr className="city">
@@ -60,7 +100,7 @@ const AddForm = (props) => {
                   <label>City:</label>
                 </td>
                 <td>
-                  <input type="text"></input>
+                  <input type="text" required></input>
                 </td>
               </tr>
               <tr className="pincode">
@@ -68,7 +108,7 @@ const AddForm = (props) => {
                   <label>pincode:</label>
                 </td>
                 <td>
-                  <input type="tel" maxLength={6}></input>
+                  <input type="tel" maxLength={6} required></input>
                 </td>
               </tr>
               <tr className="state">
@@ -76,7 +116,7 @@ const AddForm = (props) => {
                   <label>State:</label>
                 </td>
                 <td>
-                  <input type="text"></input>
+                  <input type="text" required></input>
                 </td>
               </tr>
               <tr className="country">
@@ -84,7 +124,7 @@ const AddForm = (props) => {
                   <label>Country:</label>
                 </td>
                 <td>
-                  <input type="text"></input>
+                  <input type="text" required></input>
                 </td>
               </tr>
               <tr className="submit-button text-center" >
