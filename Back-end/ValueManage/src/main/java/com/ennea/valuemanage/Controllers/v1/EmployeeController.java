@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +56,12 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @GetMapping({"/attendance"})
-    public ResponseEntity<Page<LocalDate>> getPresentDates(Principal principal, @RequestParam(name="month") int month, @RequestParam(name="year") int year){
+    public ResponseEntity<Page<LocalDate>> getPresentDates(Principal principal, @RequestParam(name="month",defaultValue = "-1") int month, @RequestParam(name="year",defaultValue = "-1") int year){
 
+        if(month<0)
+            month=LocalDate.now().getMonthValue();
+        if(year<0)
+            year=LocalDate.now().getYear();
         return new ResponseEntity<>(employeeService.getPresentDates(findIdByPrinciple(principal),month,year),HttpStatus.OK);
 
     }
@@ -88,14 +93,18 @@ public class EmployeeController {
     }
 
     @GetMapping({"/representatives/{id}/attendance","/managers/{id}/attendance"})
-    public ResponseEntity<Page<LocalDate>> getPresentDates(@PathVariable Long id, @RequestParam(name="month") int month, @RequestParam(name="year") int year){
-
+    public ResponseEntity<Page<LocalDate>> getPresentDates(@PathVariable Long id, @RequestParam(name="month",defaultValue = "-1") int month, @RequestParam(name="year",defaultValue = "-1") int year){
+        if(month<0)
+            month=LocalDate.now().getMonthValue();
+        if(year<0)
+            year=LocalDate.now().getYear();
         return new ResponseEntity<>(employeeService.getPresentDates(id,month,year),HttpStatus.OK);
 
     }
 
-    @GetMapping({"/representatives/{id}/reports", "/managers/{id}/attendance"})
+    @GetMapping({"/representatives/{id}/reports", "/managers/{id}/reports"})
     public ResponseEntity<Page<ReportDTO>> getReports(@PathVariable Long id,
+
                                                       @RequestParam(defaultValue = "0")int page,
                                                       @RequestParam(defaultValue = "10")int size){
 

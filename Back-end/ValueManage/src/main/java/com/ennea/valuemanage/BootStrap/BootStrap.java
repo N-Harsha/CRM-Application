@@ -121,7 +121,7 @@ public class BootStrap implements CommandLineRunner {
         re8=employeeService.save(re8);
 
         Authority managerAuthority = authorityRepository.save(Authority.builder().role("MANAGER").build());
-        Authority representativeAuthority = authorityRepository.save(Authority.builder().role("ROLE_REPRESENTATIVE").build());
+        Authority representativeAuthority = authorityRepository.save(Authority.builder().role("REPRESENTATIVE").build());
 
         userRepository.save(User.builder().userName("Representative1").password(passwordEncoder.encode("password1")).authority(representativeAuthority).employee(re1).build());
         userRepository.save(User.builder().userName("Representative2").password(passwordEncoder.encode("password2")).authority(representativeAuthority).employee(re2).build());

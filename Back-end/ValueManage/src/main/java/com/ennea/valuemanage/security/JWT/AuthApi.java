@@ -33,7 +33,7 @@ public class AuthApi {
             User user = (User) authentication.getPrincipal();
 //            System.out.println(user.toString());
             String token = jwtTokenUtil.generateAccessToken(user);
-            return ResponseEntity.ok(AuthResponse.builder().username(user.getUsername()).token(token).build());
+            return ResponseEntity.ok(AuthResponse.builder().username(user.getUsername()).token(token).Role(user.getAuthorities().toString().replace("[","").replace("]","")).build());
         }
         catch (BadCredentialsException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
