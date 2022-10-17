@@ -5,7 +5,26 @@ const Report = (props) => {
   const navigate=useNavigate();
   const ReportSubmitHandler=(event)=>{
     event.preventDefault();
-    navigate("/dashboard");
+    if(props.type==="Retailer"){
+      
+      const data = {
+        totalMet:event.target[0].value,
+        newOnboarded:event.target[1].value,
+        existingMet:event.target[2].value,
+        ordersPlaced:event.target[3].value,
+        date:new Date(),
+        comment:{
+          name:"Retailer111",
+          text:event.target[4].value,
+          date:new Date(),
+        }
+       }
+      fetch('http://localhost:8080/api/v1/reports', {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {'Content-Type':'application/json'},
+       });
+    navigate("/dashboard");}
   }
   return (
     <center>

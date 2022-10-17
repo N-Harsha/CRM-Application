@@ -34,7 +34,7 @@ function App() {
           <Route path="/AssociateRetailers/" element={<AssociatedRetailers type="rep"/>} />
           <Route path="/AssociatedRetailers/:UID" element={<Dummy type="rep"/>}></Route>
           <Route path="/MarkAttendance" element={<Calendar type="rep"/>} />
-          <Route path="/Reports" element={<Report type="Retailers" />} />
+          <Route path="/Reports" element={<Report type="Retailers"  />} />
           <Route path="/NewRetailer" element={<NewRetailer type="rep"/>} />
           <Route
             path="/NewRetailer/new"
