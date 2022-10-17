@@ -15,20 +15,22 @@ import Calendar from "./Pages/MarkAttendance/Calendar";
 import AssociatedRepresentatives from "./Pages/AssociatedRepresentatives/AssociatedRepresentatives";
 import RepresentativeDetail from "./Pages/AssociatedRepresentatives/RepresentativeDetail";
 function App() {
+  const token=localStorage.getItem("token");
+  const isLoggedIn=localStorage.getItem("isLoggedIn");
   const retailer=useSelector(state=>state.retailer);
   const dispatch=useDispatch();
   const LoginHandler=(event)=>{
     dispatch(retailerActions.loginReducer());
 
   }
-  const uname=retailer.uname;
+  const role=retailer.role;
   return (
     <div className="Appdiv text-center">
-      {uname==="rep" && retailer.isLoggedIn && <NavBar onClick={LoginHandler} type="rep"/>}
-      {uname==="man" && retailer.isLoggedIn && <NavBar onClick={LoginHandler} type="man"/>}
+      {role==="REPRESENTATIVE" && isLoggedIn && <NavBar onClick={LoginHandler} type="rep"/>}
+      {role==="MANAGER" && isLoggedIn&& <NavBar onClick={LoginHandler} type="man"/>}
       <div className="route-div">
-       {uname==="rep" &&  <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
+       {role==="REPRESENTATIVE" &&  <Routes>
+          <Route path="/" element={token&&isLoggedIn ?<Navigate to="/dashboard"/> :<Navigate to="/login" />} />
           <Route path="/login" element={<Login onClick={LoginHandler}/>} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/AssociateRetailers/" element={<AssociatedRetailers type="rep"/>} />
@@ -41,8 +43,8 @@ function App() {
             element={<AddForm type="Retailer" />}
           />
         </Routes>}
-          {uname==="man"&& <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
+          {role==="MANAGER"&& <Routes>
+          <Route path="/" element={token &&isLoggedIn ?<Navigate to="/dashboard"/> :<Navigate to="/login" />} />
           <Route path="/login" element={<Login onClick={LoginHandler}/>} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/AssociateDistributors/" element={<AssociatedRetailers type="man"/>} />

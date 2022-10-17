@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class EmployeeController {
 
     EmployeeService employeeService;
@@ -40,7 +40,8 @@ public class EmployeeController {
     private Long findIdByPrinciple(Principal principal){
         return userRepository.findUserByUsername(principal.getName()).get().getEmployeeId();
     }
-
+//
+//    @CrossOrigin(origins= "http://localhost:3000")
     @GetMapping({"/retailers","/distributors"})
     public ResponseEntity<Page<CustomerDTO>> getCustomers(Principal principal,
                                                           @RequestParam(defaultValue = "0") int page,
