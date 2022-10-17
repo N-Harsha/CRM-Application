@@ -62,16 +62,16 @@ public class EmployeeController {
     }
 
     @PostMapping("/attendance")
-    public ResponseEntity<Void> markAttendance(Principal principal){
+    public ResponseEntity<String> markAttendance(Principal principal){
         employeeService.markAttendance(findIdByPrinciple(principal));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("Attendance Marked",HttpStatus.CREATED);
     }
 
 
     @PostMapping( "/reports") //for themselves
-    public ResponseEntity<Void> submitReport(Principal principal,@RequestBody ReportDTO reportDTO){
+    public ResponseEntity<String> submitReport(Principal principal,@RequestBody ReportDTO reportDTO){
         employeeService.submitReport(findIdByPrinciple(principal),reportDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("Report Submitted",HttpStatus.CREATED);
     }
 
 

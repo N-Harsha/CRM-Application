@@ -86,7 +86,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private Set<Authority> getAuthorities(String token) {
 //        HashSet<String> authorities = new HashSet<>();
         Claims claims= jwtUtil.parseClaims(token);
-        return Arrays.asList(claims.get("Roles").toString().split(",")).stream().map(authority->Authority.builder().role("ROLE_"+authority).build()).collect(Collectors.toSet());
+        return Arrays.asList(claims.get("roles").toString().split(",")).stream().map(authority->Authority.builder().role("ROLE_"+authority).build()).collect(Collectors.toSet());
 
     }
 

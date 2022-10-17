@@ -20,12 +20,10 @@ public class JwtTokenUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
     public String generateAccessToken(User user){
         Map<String, Object> claims = new HashMap<>();
-        Set<String> Userroles = new HashSet<>();
-        for(Authority authority:user.getPlainAuthorities()){
-            Userroles.add(authority.getRole());
-        }
-        claims.put("Roles",Userroles.toArray());
-        claims.put("Subject", user.getId()+","+user.getUsername());
+
+        claims.put("roles",user.getAuthorities().toString().replace("[","").replace("]",""));
+        System.out.println(claims.get("roles"));
+        claims.put("sub",user.getId()+","+user.getUsername());
         return Jwts.builder()
                 .setIssuer("Machine")
                 .setClaims(claims)
@@ -55,7 +53,7 @@ public class JwtTokenUtil {
     }
 
     public String getSubject(String token) {
-        return parseClaims(token).get("Subject").toString();
+        return parseClaims(token).getSubject();
     }
 
     public Claims parseClaims(String token) {
