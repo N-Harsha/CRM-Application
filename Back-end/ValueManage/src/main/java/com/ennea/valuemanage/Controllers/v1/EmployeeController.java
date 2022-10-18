@@ -72,6 +72,11 @@ public class EmployeeController {
         return new ResponseEntity<>("Attendance Marked",HttpStatus.CREATED);
     }
 
+    @GetMapping("/attendance/today") //for both manager and rep
+    public ResponseEntity<Boolean> hasMarkedAttendance(Principal principal){
+        return new ResponseEntity<>(employeeService.getAttendanceToday(findIdByPrinciple(principal)),HttpStatus.OK);
+    }
+
 
     @PostMapping( "/reports") //for themselves
     public ResponseEntity<String> submitReport(Principal principal,@RequestBody ReportDTO reportDTO){
@@ -118,4 +123,6 @@ public class EmployeeController {
                                                           @RequestParam(defaultValue = "10")int size){
         return new ResponseEntity<>(employeeService.getCustomers(id,PageRequest.of(page,size)),HttpStatus.OK);
     }
+
+
 }
